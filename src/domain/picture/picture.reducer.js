@@ -1,6 +1,9 @@
 import { types } from './picture.actions';
 
 export default function reducer(state, action) {
+    const { pictures, user } = state;
+    let currentImageIndex;
+
     switch (action.type) {
         case types.PICTURE_STARTED:
             return {
@@ -14,9 +17,19 @@ export default function reducer(state, action) {
                 pictures: action.payload
             }
         case types.PICTURE_LIKED:
-            const { pictures } = state;
-            const idx = pictures.findIndex(picture => picture.id === action.payload.id);
-            pictures[idx] = action.payload;
+            currentImageIndex = pictures.findIndex(picture => picture._id === action.payload._id);
+            pictures[currentImageIndex].likedBy = [...pictures[currentImageIndex].likedBy, { _id: user._id }];
+            return {
+                ...state,
+                pending: false,
+                pictures: [...pictures]
+            }
+        case types.PICTURE_UNLIKED:
+            currentImageIndex = pictures.findIndex(picture => picture._id === action.payload._id);
+            const userIndex = pictures[currentImageIndex].likedBy.findIndex(like => like._id === user._id);
+            if (userIndex > -1) {
+                pictures[currentImageIndex].likedBy.splice(userIndex, 1);
+            }
             return {
                 ...state,
                 pending: false,

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from "react-router-dom";
 import { ApplicationContext } from '../../domain/application.store';
 import { authLogout } from '../../domain/authentication/authentication.actions';
 import './Menu.css';

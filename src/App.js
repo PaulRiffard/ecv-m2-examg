@@ -3,6 +3,7 @@ import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { Menu } from './components/menu/Menu';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
+import Collection from './pages/Collection';
 import { ApplicationContext, ApplicationProvider } from './domain/application.store';
 import { authGetMe } from './domain/authentication/authentication.actions';
 
@@ -30,6 +31,7 @@ const ProtectedRoute = ({ component, ...rest }) => {
         return <Wrapper {...props} component={component} />
       }
       return <Redirect to="/login" />
+
     }} />
   )
 }
@@ -42,6 +44,7 @@ function App() {
         <Switch>
           <Route path='/login' component={Auth} />
           <ProtectedRoute exact path='/' component={Home} />
+          <ProtectedRoute exact path='/profile' component={Collection} />
           <Redirect to="/" />
         </Switch>
         <Menu />
